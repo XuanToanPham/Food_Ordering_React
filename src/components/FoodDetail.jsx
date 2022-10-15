@@ -9,6 +9,8 @@ import {
   MdReport,
   MdCheck,
 } from "react-icons/md";
+
+import { AiOutlineLike, AiOutlineDislike } from "react-icons/ai";
 import { useParams } from "react-router-dom";
 import { useStateValue } from "../context/StateProvider";
 import { motion } from "framer-motion";
@@ -257,7 +259,6 @@ const FoodDetail = () => {
                 <div className="bg-green-400 h-1.5 rounded-full w-[75%]"></div>
               </div>
               <div className="ml-3 text-textColor">1,5k</div>
-
             </div>
             <div className="flex w-full items-center gap-2 justify-center">
               <div className="mb-1 text-base font-medium text-textColor flex items-center gap-1">
@@ -268,7 +269,6 @@ const FoodDetail = () => {
                 <div className="bg-green-400 h-1.5 rounded-full w-[55%]"></div>
               </div>
               <div className="ml-3 text-textColor">1,5k</div>
-
             </div>
             <div className="flex w-full items-center gap-2 justify-center">
               <div className="mb-1 text-base font-medium text-textColor flex items-center gap-1">
@@ -279,7 +279,6 @@ const FoodDetail = () => {
                 <div className="bg-green-400 h-1.5 rounded-full w-[35%]"></div>
               </div>
               <div className="ml-3 text-textColor">1,5k</div>
-
             </div>
             <div className="flex w-full items-center gap-2 justify-center">
               <div className="mb-1 text-base font-medium text-textColor flex items-center gap-1">
@@ -290,7 +289,6 @@ const FoodDetail = () => {
                 <div className="bg-green-400 h-1.5 rounded-full w-[25%]"></div>
               </div>
               <div className="ml-3 text-textColor">1,5k</div>
-
             </div>
             <div className="flex w-full items-center gap-2 justify-center">
               <div className="mb-1 text-base font-medium text-textColor flex items-center gap-1">
@@ -304,10 +302,310 @@ const FoodDetail = () => {
             </div>
           </motion.div>
         </div>
-        <div className="flex flex-col items-center">
-          <div></div>
-        </div>
+        <div className="flex flex-col md:flex-row items-center md:items-start mt-2">
+          <div className="w-[100%] md:w-[60%] flex flex-col gap-4">
+            <div className="w-full flex flex-col gap-4">
+              <div className="flex items-center justify-between">
+                <p className="text-gray-800 text-xl font-semibold">
+                  All Comments (2,1k)
+                </p>
+                <div className="flex items-center gap-2">
+                  <div>Sort by : </div>
 
+                  <div className="inline-flex bg-white border rounded-md">
+                    <div className="cursor-pointer px-4 py-2 text-sm text-gray-600 hover:text-gray-700 hover:bg-gray-50 rounded-l-md">
+                      Option
+                    </div>
+
+                    <div className="relative">
+                      <button
+                        type="button"
+                        className="inline-flex items-center justify-center h-full px-2 text-gray-600 border-l border-gray-100 hover:text-gray-700 rounded-r-md hover:bg-gray-50"
+                      >
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          className="w-4 h-4"
+                          fill="none"
+                          viewBox="0 0 24 24"
+                          stroke="currentColor"
+                          strokeWidth={2}
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            d="M19 9l-7 7-7-7"
+                          />
+                        </svg>
+                      </button>
+
+                      <div className="hidden absolute right-0 z-10 w-56 mt-4 origin-top-right bg-white border border-gray-100 rounded-md shadow-lg">
+                        <ul className="p-2">
+                          <li className="block px-4 py-2 text-sm text-gray-500 rounded-lg hover:bg-gray-50 hover:text-gray-700">
+                            Newest
+                          </li>
+                          <li className="block px-4 py-2 text-sm text-gray-500 rounded-lg hover:bg-gray-50 hover:text-gray-700">
+                            All
+                          </li>
+                          <li className="block px-4 py-2 text-sm text-gray-500 rounded-lg hover:bg-gray-50 hover:text-gray-700">
+                            Positive
+                          </li>
+                        </ul>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div className="flex flex-col h-[400px] mt-4 gap-4 overflow-y-scroll">
+                <div className="flex flex-col gap-4">
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center justify-center gap-4">
+                      <div className="w-10 h-10 rounded-full">
+                        <img
+                          src="https://lh3.googleusercontent.com/a-/ACNPEu9KWFmG5DgeiUXPhDy40WBBakxKQcldmLNx0Et9KA=s96-c"
+                          alt=""
+                          className="rounded-full"
+                        />
+                      </div>
+                      <div className="flex flex-col">
+                        <p className="text-lg font-semibold">Pham Xuan Toan</p>
+                        <p className="text-md text-textColor">July, 23, 2022</p>
+                      </div>
+                    </div>
+
+                    <div className="flex flex-col">
+                      <div className="flex gap-1">
+                        <MdStar className="text-lg text-yellow-400" />
+                        <MdStar className="text-lg text-yellow-400" />
+                        <MdStar className="text-lg text-yellow-400" />
+                        <MdStar className="text-lg text-yellow-400" />
+                        <MdStar className="text-lg text-yellow-400" />
+                      </div>
+
+                      <div className="text-sm text-textColor">
+                        83% of users found this review helpful
+                      </div>
+                    </div>
+
+                    <div className="flex items-center justify-center gap-2">
+                      <AiOutlineLike className="text-xl" />
+                      <AiOutlineDislike className="text-xl" />
+                    </div>
+                  </div>
+                  <div className="flex">
+                    <p className="text-textColor">
+                      Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                      Nam velit dolores mollitia molestiae necessitatibus
+                      accusamus, alias a et atque? Explicabo?
+                    </p>
+                  </div>
+                </div>
+                <div className="flex flex-col gap-4">
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center justify-center gap-4">
+                      <div className="w-10 h-10 rounded-full">
+                        <img
+                          src="https://lh3.googleusercontent.com/a-/ACNPEu9KWFmG5DgeiUXPhDy40WBBakxKQcldmLNx0Et9KA=s96-c"
+                          alt=""
+                          className="rounded-full"
+                        />
+                      </div>
+                      <div className="flex flex-col">
+                        <p className="text-lg font-semibold">Pham Xuan Toan</p>
+                        <p className="text-md text-textColor">July, 23, 2022</p>
+                      </div>
+                    </div>
+
+                    <div className="flex flex-col">
+                      <div className="flex gap-1">
+                        <MdStar className="text-lg text-yellow-400" />
+                        <MdStar className="text-lg text-yellow-400" />
+                        <MdStar className="text-lg text-yellow-400" />
+                        <MdStar className="text-lg text-yellow-400" />
+                        <MdStar className="text-lg text-yellow-400" />
+                      </div>
+
+                      <div className="text-sm text-textColor">
+                        83% of users found this review helpful
+                      </div>
+                    </div>
+
+                    <div className="flex items-center justify-center gap-2">
+                      <AiOutlineLike className="text-xl" />
+                      <AiOutlineDislike className="text-xl" />
+                    </div>
+                  </div>
+                  <div className="flex">
+                    <p className="text-textColor">
+                      Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                      Nam velit dolores mollitia molestiae necessitatibus
+                      accusamus, alias a et atque? Explicabo?
+                    </p>
+                  </div>
+                </div>
+                <div className="flex flex-col gap-4">
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center justify-center gap-4">
+                      <div className="w-10 h-10 rounded-full">
+                        <img
+                          src="https://lh3.googleusercontent.com/a-/ACNPEu9KWFmG5DgeiUXPhDy40WBBakxKQcldmLNx0Et9KA=s96-c"
+                          alt=""
+                          className="rounded-full"
+                        />
+                      </div>
+                      <div className="flex flex-col">
+                        <p className="text-lg font-semibold">Pham Xuan Toan</p>
+                        <p className="text-md text-textColor">July, 23, 2022</p>
+                      </div>
+                    </div>
+
+                    <div className="flex flex-col">
+                      <div className="flex gap-1">
+                        <MdStar className="text-lg text-yellow-400" />
+                        <MdStar className="text-lg text-yellow-400" />
+                        <MdStar className="text-lg text-yellow-400" />
+                        <MdStar className="text-lg text-yellow-400" />
+                        <MdStar className="text-lg text-yellow-400" />
+                      </div>
+
+                      <div className="text-sm text-textColor">
+                        83% of users found this review helpful
+                      </div>
+                    </div>
+
+                    <div className="flex items-center justify-center gap-2">
+                      <AiOutlineLike className="text-xl" />
+                      <AiOutlineDislike className="text-xl" />
+                    </div>
+                  </div>
+                  <div className="flex">
+                    <p className="text-textColor">
+                      Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                      Nam velit dolores mollitia molestiae necessitatibus
+                      accusamus, alias a et atque? Explicabo?
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div className="w-[100%] md:w-[40%] flex flex-col">
+            <div className="flex flex-col w-full items-center justify-center">
+              <form className="flex flex-col gap-5 w-full md:ml-20" action="">
+                <caption className="flex text-xl font-semibold">
+                  Write Your Review
+                </caption>
+                <div className="w-full py-2 flex flex-col gap-2">
+                  <label
+                    htmlFor="inputName"
+                    className="text-md text-textColor cursor-pointer"
+                  >
+                    Your name
+                  </label>
+                  <input
+                    id="inputName"
+                    type="text"
+                    required
+                    placeholder="Your Name..."
+                    className="outline-none w-full text-base border-b-2
+                  border-gray-200 rounded-md cursor-pointer p-2"
+                  />
+                </div>
+                <div className="w-full py-2 flex flex-col gap-2">
+                  <label
+                    htmlFor="emailInput"
+                    className="text-md text-textColor cursor-pointer"
+                  >
+                    Your Email
+                  </label>
+
+                  <input
+                    id="emailInput"
+                    type="email"
+                    required
+                    placeholder="Yourmail@gmail.com"
+                    className="outline-none w-full text-base border-b-2
+                  border-gray-200 rounded-md cursor-pointer p-2"
+                  />
+                </div>
+                <div className="w-full flex flex-col gap-2">
+                  <label
+                    htmlFor="rating"
+                    className="text-md text-textColor cursor-pointer"
+                  >
+                    Choosen rating
+                  </label>
+                  <select
+                    id="rating"
+                    className="outline-none w-full text-base border-b-2
+                  border-gray-200 rounded-md cursor-pointer p-2"
+                  >
+                    <option
+                      value="other"
+                      className="text-base border-0 outline-none capitalize bg-white text-headingColor"
+                    >
+                      Select Category
+                    </option>
+                    <option
+                      value="1"
+                      className="text-base border-0 outline-none capitalize bg-white text-headingColor"
+                    >
+                      1
+                    </option>
+                    <option
+                      value="2"
+                      className="text-base border-0 outline-none capitalize bg-white text-headingColor"
+                    >
+                      2
+                    </option>
+                    <option
+                      value="3"
+                      className="text-base border-0 outline-none capitalize bg-white text-headingColor"
+                    >
+                      3
+                    </option>
+                    <option
+                      value="4"
+                      className="text-base border-0 outline-none capitalize bg-white text-headingColor"
+                    >
+                      4
+                    </option>
+                    <option
+                      value="5"
+                      className="text-base border-0 outline-none capitalize bg-white text-headingColor"
+                    >
+                      5
+                    </option>
+                  </select>
+                </div>
+                <div className="w-full py-2 flex flex-col gap-2">
+                  <label
+                    htmlFor="emailInput"
+                    className="text-md text-textColor cursor-pointer"
+                  >
+                    Your Comment
+                  </label>
+                  <textarea
+                    name=""
+                    id=""
+                    rows={"5"}
+                    placeholder="Your comment ... "
+                    className="outline-none w-full text-base border-b-2
+                  border-gray-200 rounded-md cursor-pointer p-2"
+                  ></textarea>
+                </div>
+
+                <button
+                  type="submit"
+                  className=" w-full rounded-md bg-blue-400 py-2 text-white font-semibold"
+                >
+                  Submit Review
+                </button>
+              </form>
+            </div>
+          </div>
+        </div>
       </div>
     </section>
   );
