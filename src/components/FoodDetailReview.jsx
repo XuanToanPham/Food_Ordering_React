@@ -13,7 +13,7 @@ import { useRef } from "react";
 import axios from "axios";
 import { useEffect } from "react";
 
-const FoodDetailReview = ({index, getDataSubmitComment }) => {
+const FoodDetailReview = ({ index, getDataSubmitComment }) => {
   const [{ user }, dispatch] = useStateValue();
   const [valueEmail, setValueEmail] = useState(user ? user.email : "");
   const [fields, setFields] = useState(false);
@@ -23,6 +23,7 @@ const FoodDetailReview = ({index, getDataSubmitComment }) => {
   const inputEmailRef = useRef();
   const inputRatingRef = useRef();
   const inputCommentRef = useRef();
+  const [submit, setSubmit] = useState();
   const [foodDetail, setFoodDetail] = useState();
   const getFoodDetail = async () => {
     await axios
@@ -30,9 +31,8 @@ const FoodDetailReview = ({index, getDataSubmitComment }) => {
         `https://restaurantapp-ffbfd-default-rtdb.firebaseio.com/comments/-NELb_YF5gfY_BdUEX2N/${index}.json`
       )
       .then((res) => {
-        console.log(res.data)
+        console.log(res.data);
         setFoodDetail(res.data);
-        console.log(foodDetail)
       })
       .catch((err) => console.log(err));
   };
@@ -42,12 +42,15 @@ const FoodDetailReview = ({index, getDataSubmitComment }) => {
         `https://restaurantapp-ffbfd-default-rtdb.firebaseio.com/comments/-NELb_YF5gfY_BdUEX2N/${index}.json`,
         data
       )
-      .then((res) => console.log(res))
+      .then((res) => {
+        console.log(res);
+        getFoodDetail();
+      })
       .catch((err) => console.log(err));
   };
-  useEffect(() =>{
+  useEffect(() => {
     getFoodDetail();
-  },[])
+  }, []);
   const submitForm = (e) => {
     e.preventDefault();
     const valueInputName = inputNameRef.current.value;
@@ -70,10 +73,10 @@ const FoodDetailReview = ({index, getDataSubmitComment }) => {
         comment: valueInputComment,
         rating: +valueInputRating,
       };
-      console.log(foodDetail.comments)
+      console.log(foodDetail.comments);
       if (foodDetail.comments) {
         const comments = [...foodDetail.comments, data];
-        const rating = ((foodDetail.rate + (+valueInputRating) )/2).toFixed(1);
+        const rating = ((foodDetail.rate + +valueInputRating) / 2).toFixed(1);
         console.log(rating);
         const dataUpdate = {
           ...foodDetail,
@@ -82,8 +85,7 @@ const FoodDetailReview = ({index, getDataSubmitComment }) => {
         };
         console.log("Co comment", dataUpdate);
         putDataUpdate(dataUpdate);
-        getFoodDetail();
-        getDataSubmitComment(dataUpdate)
+        getDataSubmitComment(dataUpdate);
       } else {
         const dataUpdate = {
           ...foodDetail,
@@ -92,8 +94,7 @@ const FoodDetailReview = ({index, getDataSubmitComment }) => {
         };
         console.log("Khong co commnet", dataUpdate);
         putDataUpdate(dataUpdate);
-        getFoodDetail();
-        getDataSubmitComment(dataUpdate)
+        getDataSubmitComment(dataUpdate);
       }
       console.log(index);
       setFields(true);
