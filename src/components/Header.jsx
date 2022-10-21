@@ -78,8 +78,7 @@ const Header = () => {
               onClick={() => setIsMenu(false)}
               className="text-base text-textColor cursor-pointer hover:text-headingColor duration-100 transition-all ease-in-out"
             >
-              <Link to={'/review'}>Review </Link>
-              
+              <Link to={"/review"}>Review </Link>
             </li>
             <li
               onClick={() => setIsMenu(false)}
@@ -143,11 +142,11 @@ const Header = () => {
 
       {/* mobile */}
 
-      <div
-        className="flex md:hidden w-full h-ful items-center justify-between"
-        onClick={showCart}
-      >
-        <div className="relative flex items-center justify-center">
+      <div className="flex md:hidden w-full h-ful items-center justify-between">
+        <div
+          className="relative flex items-center justify-center"
+          onClick={showCart}
+        >
           <MdShoppingBasket className="text-textColor text-2xl ml-8 cursor-pointer" />
           {cartItems && cartItems.length > 0 && (
             <div className="absolute -top-2 -right-2 w-5 h-5 rounded-full bg-cartNumBg flex items-center justify-center">

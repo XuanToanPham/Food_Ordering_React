@@ -78,7 +78,7 @@ const ReviewContainer = () => {
         }`}
       >
         {dataRender && dataRender.length > 0 ? (
-          dataRender.map((item) => (
+          dataRender.map((item,index) => (
             <motion.div
               whileTap={{ scale: 0.75 }}
               key={item.id}

@@ -1,5 +1,6 @@
 import React from "react";
 import { MdCheck } from "react-icons/md";
+import { motion } from "framer-motion";
 const FoodDetailDesc = ({ foodDetail }) => {
   return (
     <div className="flex flex-col gap-4">
@@ -11,7 +12,12 @@ const FoodDetailDesc = ({ foodDetail }) => {
       </div>
       <div className="w-full flex flex-col">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
-          <div className="flex flex-col gap-4">
+          <motion.div
+            initial={{ opacity: 0, x: -200 }}
+            animate={{ opacity: 1, x: 0 }}
+            exit={{ opacity: 0, x: -200 }}
+            className="flex flex-col gap-4"
+          >
             <div className="text-xl font-semibold text-gray-700 flex items-center justify-center">
               Overview
             </div>
@@ -65,8 +71,13 @@ const FoodDetailDesc = ({ foodDetail }) => {
                 </p>
               </li>
             </ul>
-          </div>
-          <div className="flex flex-col gap-4">
+          </motion.div>
+          <motion.div
+            initial={{ opacity: 0, x: 200 }}
+            animate={{ opacity: 1, x: 0 }}
+            exit={{ opacity: 0, x: 200 }}
+            className="flex flex-col gap-4"
+          >
             <div className="text-xl font-semibold text-gray-700 flex items-center justify-center">
               What's inside Food
             </div>
@@ -142,7 +153,7 @@ const FoodDetailDesc = ({ foodDetail }) => {
                 </ul>
               </div>
             </div>
-          </div>
+          </motion.div>
         </div>
       </div>
     </div>
