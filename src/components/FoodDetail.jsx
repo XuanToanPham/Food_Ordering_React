@@ -19,6 +19,7 @@ import FoodDetailDesc from "./FoodDetailDesc";
 import FoodDetailReview from "./FoodDetailReview";
 import RowContainer from "./RowContainer";
 import FoodDetailRelated from "./FoodDetailRelated";
+import FoodDetailModal from "./FoodDetailModal";
 const FoodDetail = () => {
   const param = useParams();
   const [{ reviewFoods, cartItems, foodItems }, dispatch] = useStateValue();
@@ -89,16 +90,13 @@ const FoodDetail = () => {
     }, 3000);
   };
   const [submitComment, setSubmitComment] = useState();
-  const getDataSubmitComment = (data) =>{
-    setSubmitComment(data);
-  }
-  console.log(submitComment);
   useEffect(() => {
     getFoodDetail();
-  }, [reviewFoods, param.id, submitComment]);
+  }, [reviewFoods, param.id]);
 
   return (
     <section className="w-full my-6 flex flex-col gap-8">
+      {/* {<FoodDetailModal/>} */}
       {fields && (
         <motion.p
           initial={{ opacity: 0 }}
@@ -239,7 +237,7 @@ const FoodDetail = () => {
         </div>
       </div>
       {filter === "desc" && <FoodDetailDesc foodDetail={foodDetail} />}
-      {filter === "review" && <FoodDetailReview foodDetail={foodDetail} index={indexData} getDataSubmitComment ={getDataSubmitComment} />}
+      {filter === "review" && <FoodDetailReview foodDetail={foodDetail} index={indexData} />}
       {filter === "related" && (
         <FoodDetailRelated
           flag={false}

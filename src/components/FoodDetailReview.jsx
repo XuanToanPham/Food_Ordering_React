@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import photoUser from "../img/avatar.png";
 import {
   MdShoppingBag,
   MdStar,
@@ -10,12 +11,12 @@ import { motion } from "framer-motion";
 import { AiOutlineLike, AiOutlineDislike } from "react-icons/ai";
 import { useStateValue } from "../context/StateProvider";
 import { useRef } from "react";
+import NotFound from "../img/NotFound.svg";
 import axios from "axios";
 import { useEffect } from "react";
 
-const FoodDetailReview = ({ index, getDataSubmitComment }) => {
+const FoodDetailReview = ({ index }) => {
   const [{ user }, dispatch] = useStateValue();
-  const [valueEmail, setValueEmail] = useState(user ? user.email : "");
   const [fields, setFields] = useState(false);
   const [msg, setMsg] = useState("");
   const [alertStatus, setAlertStatus] = useState("");
@@ -23,8 +24,9 @@ const FoodDetailReview = ({ index, getDataSubmitComment }) => {
   const inputEmailRef = useRef();
   const inputRatingRef = useRef();
   const inputCommentRef = useRef();
-  const [submit, setSubmit] = useState();
   const [foodDetail, setFoodDetail] = useState();
+  const [showSortComments, setShowSortComments] = useState(false);
+  const [star, setStar] = useState();
   const getFoodDetail = async () => {
     await axios
       .get(
@@ -51,6 +53,7 @@ const FoodDetailReview = ({ index, getDataSubmitComment }) => {
   useEffect(() => {
     getFoodDetail();
   }, []);
+
   const submitForm = (e) => {
     e.preventDefault();
     const valueInputName = inputNameRef.current.value;
@@ -63,6 +66,7 @@ const FoodDetailReview = ({ index, getDataSubmitComment }) => {
       valueInputRating &&
       valueInputComment
     ) {
+      const avata = user ? user.photoURL : "";
       const data = {
         id: Date.now(),
         name: valueInputName,
@@ -72,9 +76,9 @@ const FoodDetailReview = ({ index, getDataSubmitComment }) => {
         )}, ${new Date().getDate()}, ${new Date().getFullYear()}`,
         comment: valueInputComment,
         rating: +valueInputRating,
+        avata: avata,
       };
-      console.log(foodDetail.comments);
-      if (foodDetail.comments) {
+      if (foodDetail && foodDetail.comments) {
         const comments = [...foodDetail.comments, data];
         const rating = ((foodDetail.rate + +valueInputRating) / 2).toFixed(1);
         console.log(rating);
@@ -85,7 +89,6 @@ const FoodDetailReview = ({ index, getDataSubmitComment }) => {
         };
         console.log("Co comment", dataUpdate);
         putDataUpdate(dataUpdate);
-        getDataSubmitComment(dataUpdate);
       } else {
         const dataUpdate = {
           ...foodDetail,
@@ -94,7 +97,6 @@ const FoodDetailReview = ({ index, getDataSubmitComment }) => {
         };
         console.log("Khong co commnet", dataUpdate);
         putDataUpdate(dataUpdate);
-        getDataSubmitComment(dataUpdate);
       }
       console.log(index);
       setFields(true);
@@ -212,13 +214,20 @@ const FoodDetailReview = ({ index, getDataSubmitComment }) => {
           <div className="w-full flex flex-col gap-4">
             <div className="flex items-center justify-between">
               <p className="text-gray-800 text-xl font-semibold">
-                All Comments (2,1k)
+                All Comments (
+                {foodDetail && foodDetail.comments
+                  ? foodDetail.comments.length
+                  : "0"}
+                )
               </p>
               <div className="flex items-center gap-2">
                 <div>Sort by : </div>
 
                 <div className="inline-flex bg-white border rounded-md">
-                  <div className="cursor-pointer px-4 py-2 text-sm text-gray-600 hover:text-gray-700 hover:bg-gray-50 rounded-l-md">
+                  <div
+                    onClick={() => setShowSortComments(!showSortComments)}
+                    className="cursor-pointer px-4 py-2 text-sm text-gray-600 hover:text-gray-700 hover:bg-gray-50 rounded-l-md"
+                  >
                     Option
                   </div>
 
@@ -226,6 +235,7 @@ const FoodDetailReview = ({ index, getDataSubmitComment }) => {
                     <button
                       type="button"
                       className="inline-flex items-center justify-center h-full px-2 text-gray-600 border-l border-gray-100 hover:text-gray-700 rounded-r-md hover:bg-gray-50"
+                      onClick={() => setShowSortComments(!showSortComments)}
                     >
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
@@ -243,15 +253,28 @@ const FoodDetailReview = ({ index, getDataSubmitComment }) => {
                       </svg>
                     </button>
 
-                    <div className="hidden absolute right-0 z-10 w-56 mt-4 origin-top-right bg-white border border-gray-100 rounded-md shadow-lg">
+                    <div
+                      className={`${
+                        showSortComments ? "" : "hidden"
+                      } absolute right-0 z-10 w-56 mt-4 origin-top-right bg-white border border-gray-100 rounded-md shadow-lg`}
+                    >
                       <ul className="p-2">
-                        <li className="block px-4 py-2 text-sm text-gray-500 rounded-lg hover:bg-gray-50 hover:text-gray-700">
+                        <li
+                          onClick={() => setShowSortComments(false)}
+                          className="block px-4 py-2 text-sm text-gray-500 rounded-lg hover:bg-gray-50 hover:text-gray-700"
+                        >
                           Newest
                         </li>
-                        <li className="block px-4 py-2 text-sm text-gray-500 rounded-lg hover:bg-gray-50 hover:text-gray-700">
+                        <li
+                          onClick={() => setShowSortComments(false)}
+                          className="block px-4 py-2 text-sm text-gray-500 rounded-lg hover:bg-gray-50 hover:text-gray-700"
+                        >
                           All
                         </li>
-                        <li className="block px-4 py-2 text-sm text-gray-500 rounded-lg hover:bg-gray-50 hover:text-gray-700">
+                        <li
+                          onClick={() => setShowSortComments(false)}
+                          className="block px-4 py-2 text-sm text-gray-500 rounded-lg hover:bg-gray-50 hover:text-gray-700"
+                        >
                           Positive
                         </li>
                       </ul>
@@ -262,135 +285,62 @@ const FoodDetailReview = ({ index, getDataSubmitComment }) => {
             </div>
 
             <div className="flex flex-col h-[400px] mt-4 gap-4 overflow-y-scroll">
-              <div className="flex flex-col gap-4">
-                <div className="flex items-center justify-between">
-                  <div className="flex items-center justify-center gap-4">
-                    <div className="w-10 h-10 rounded-full">
-                      <img
-                        src="https://lh3.googleusercontent.com/a-/ACNPEu9KWFmG5DgeiUXPhDy40WBBakxKQcldmLNx0Et9KA=s96-c"
-                        alt=""
-                        className="rounded-full"
-                      />
+              {foodDetail && foodDetail.comments ? (
+                foodDetail.comments.map((item) => (
+                  <div key={item.id} className="flex flex-col gap-4">
+                    <div className="flex items-center justify-between">
+                      <div className="flex items-center justify-center gap-4">
+                        <div className="w-10 h-10 rounded-full">
+                          <img
+                            src={item.avata ? item.avata : photoUser}
+                            alt=""
+                            className="rounded-full"
+                          />
+                        </div>
+                        <div className="flex flex-col">
+                          <p className="text-lg font-semibold">{item.name}</p>
+                          <p className="text-md text-textColor">{item.Date}</p>
+                        </div>
+                      </div>
+
+                      <div className="flex flex-col">
+                        <div className="flex gap-1">
+                          <MdStar className="text-lg text-yellow-400" />
+                          <MdStar className="text-lg text-yellow-400" />
+                          <MdStar className="text-lg text-yellow-400" />
+                          <MdStar className="text-lg text-yellow-400" />
+                          <MdStar className="text-lg text-yellow-400" />
+
+                        </div>
+
+                        <div className="text-sm text-textColor">
+                          83% of users found this review helpful
+                        </div>
+                      </div>
+
+                      <div className="flex items-center justify-center gap-2">
+                        <AiOutlineLike className="text-xl" />
+                        <AiOutlineDislike className="text-xl" />
+                      </div>
                     </div>
-                    <div className="flex flex-col">
-                      <p className="text-lg font-semibold">Pham Xuan Toan</p>
-                      <p className="text-md text-textColor">July, 23, 2022</p>
+                    <div className="flex">
+                      <p className="text-textColor">{item.comment}</p>
                     </div>
                   </div>
-
-                  <div className="flex flex-col">
-                    <div className="flex gap-1">
-                      <MdStar className="text-lg text-yellow-400" />
-                      <MdStar className="text-lg text-yellow-400" />
-                      <MdStar className="text-lg text-yellow-400" />
-                      <MdStar className="text-lg text-yellow-400" />
-                      <MdStar className="text-lg text-yellow-400" />
-                    </div>
-
-                    <div className="text-sm text-textColor">
-                      83% of users found this review helpful
-                    </div>
+                ))
+              ) : (
+                <div className="flex justify-center items-center flex-col">
+                  <div className="w-100 h-100">
+                    <img
+                      src={NotFound}
+                      className="w-full h-full object-contain"
+                    />
                   </div>
-
-                  <div className="flex items-center justify-center gap-2">
-                    <AiOutlineLike className="text-xl" />
-                    <AiOutlineDislike className="text-xl" />
-                  </div>
-                </div>
-                <div className="flex">
-                  <p className="text-textColor">
-                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Nam
-                    velit dolores mollitia molestiae necessitatibus accusamus,
-                    alias a et atque? Explicabo?
+                  <p className="font-semibold text-lg">
+                    No comments. Please add new comments
                   </p>
                 </div>
-              </div>
-              <div className="flex flex-col gap-4">
-                <div className="flex items-center justify-between">
-                  <div className="flex items-center justify-center gap-4">
-                    <div className="w-10 h-10 rounded-full">
-                      <img
-                        src="https://lh3.googleusercontent.com/a-/ACNPEu9KWFmG5DgeiUXPhDy40WBBakxKQcldmLNx0Et9KA=s96-c"
-                        alt=""
-                        className="rounded-full"
-                      />
-                    </div>
-                    <div className="flex flex-col">
-                      <p className="text-lg font-semibold">Pham Xuan Toan</p>
-                      <p className="text-md text-textColor">July, 23, 2022</p>
-                    </div>
-                  </div>
-
-                  <div className="flex flex-col">
-                    <div className="flex gap-1">
-                      <MdStar className="text-lg text-yellow-400" />
-                      <MdStar className="text-lg text-yellow-400" />
-                      <MdStar className="text-lg text-yellow-400" />
-                      <MdStar className="text-lg text-yellow-400" />
-                      <MdStar className="text-lg text-yellow-400" />
-                    </div>
-
-                    <div className="text-sm text-textColor">
-                      83% of users found this review helpful
-                    </div>
-                  </div>
-
-                  <div className="flex items-center justify-center gap-2">
-                    <AiOutlineLike className="text-xl" />
-                    <AiOutlineDislike className="text-xl" />
-                  </div>
-                </div>
-                <div className="flex">
-                  <p className="text-textColor">
-                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Nam
-                    velit dolores mollitia molestiae necessitatibus accusamus,
-                    alias a et atque? Explicabo?
-                  </p>
-                </div>
-              </div>
-              <div className="flex flex-col gap-4">
-                <div className="flex items-center justify-between">
-                  <div className="flex items-center justify-center gap-4">
-                    <div className="w-10 h-10 rounded-full">
-                      <img
-                        src="https://lh3.googleusercontent.com/a-/ACNPEu9KWFmG5DgeiUXPhDy40WBBakxKQcldmLNx0Et9KA=s96-c"
-                        alt=""
-                        className="rounded-full"
-                      />
-                    </div>
-                    <div className="flex flex-col">
-                      <p className="text-lg font-semibold">Pham Xuan Toan</p>
-                      <p className="text-md text-textColor">July, 23, 2022</p>
-                    </div>
-                  </div>
-
-                  <div className="flex flex-col">
-                    <div className="flex gap-1">
-                      <MdStar className="text-lg text-yellow-400" />
-                      <MdStar className="text-lg text-yellow-400" />
-                      <MdStar className="text-lg text-yellow-400" />
-                      <MdStar className="text-lg text-yellow-400" />
-                      <MdStar className="text-lg text-yellow-400" />
-                    </div>
-
-                    <div className="text-sm text-textColor">
-                      83% of users found this review helpful
-                    </div>
-                  </div>
-
-                  <div className="flex items-center justify-center gap-2">
-                    <AiOutlineLike className="text-xl" />
-                    <AiOutlineDislike className="text-xl" />
-                  </div>
-                </div>
-                <div className="flex">
-                  <p className="text-textColor">
-                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Nam
-                    velit dolores mollitia molestiae necessitatibus accusamus,
-                    alias a et atque? Explicabo?
-                  </p>
-                </div>
-              </div>
+              )}
             </div>
           </div>
         </div>
@@ -432,8 +382,7 @@ const FoodDetailReview = ({ index, getDataSubmitComment }) => {
                     type="email"
                     required
                     disabled
-                    placeholder={user && valueEmail}
-                    value={valueEmail}
+                    value={user.email}
                     ref={inputEmailRef}
                     className="outline-none w-full text-base border-b-2 cursor-not-allowed
                   border-gray-200 rounded-md p-2"
@@ -445,6 +394,7 @@ const FoodDetailReview = ({ index, getDataSubmitComment }) => {
                     type="email"
                     required
                     placeholder={"Your email ....   "}
+                    value=""
                     className="outline-none w-full text-base border-b-2
                 border-gray-200 rounded-md cursor-pointer p-2"
                   />
@@ -467,7 +417,7 @@ const FoodDetailReview = ({ index, getDataSubmitComment }) => {
                     value="other"
                     className="text-base border-0 outline-none capitalize bg-white text-headingColor"
                   >
-                    Select Category
+                    Select rating
                   </option>
                   <option
                     value="1"
